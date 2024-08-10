@@ -1,9 +1,8 @@
 .text
-    # Reservar espaço na pilha para a matrizA (2x2 elementos de 4 bytes cada), a matrizB (2x2 elementos de 4 bytes cada)
-    #  e a matrizC resultante (2x2 elementos de 4 bytes cada)
+    # Reservar espaço na pilha
     addi $sp, $sp, -64
 
-    # Armazenar os valores na matrizA 2x2 por linha
+    # Armazenar os valores na matrizA
     li $t0, 2
     sw $t0, 0($sp)
     li $t0, 3
@@ -16,7 +15,7 @@
     sw $t0, 16($sp)
     li $t0, 3
     sw $t0, 20($sp)
-    # Armazenar os valores da matrizB 2x2 na forma transposta para facilitar o cáculo fazendo primeira linha de A com primeira linha B, primeira linha de A com a segunda linha de B...
+    # Armazenar os valores da matrizB na forma transposta para facilitar o cáculo fazendo primeira linha de A com primeira linha B, primeira linha de A com a segunda linha de B...
     li $t0, 1
     sw $t0, 24($sp)
     li $t0, 2
@@ -36,7 +35,7 @@
     la $t1, 0($s5) #endereço da primeria linha e coluna da matrizA
     la $t2, 24($sp) #endereço da primeria linha e coluna da matrizB
     li $t8, 24 #acumulador de bytes
-    # loop1 das linhas da matrizA de 4 em 4
+    # loop1 das linhas da matrizA
     loop1:
 	beq $t0, 2, end_loop1 #linhas da matrizA
 	li $t3, 0 #variavel do loop2
