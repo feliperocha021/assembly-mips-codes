@@ -2,7 +2,7 @@
     # Reservar espaço na pilha para a matrizA e a matrizB e a matrizC resultante
     addi $sp, $sp, -64
 
-    # Armazenar os valores na matrizA 2x2 por linha
+    # Armazenar os valores na matrizA por linha
     li $t0, 2
     sw $t0, 0($sp)
     li $t0, 3
