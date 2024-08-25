@@ -48,6 +48,7 @@ addi $r8, 7 #acumulador de bytes
 
 addi $r13, 2 #representa as dimensões da matrizA e B
 addi $r15, 13 #endereço que representa o final da matrizB
+addi $r11, 0 #registrador que armazena o valor 0
 
 loop1:
 	slt $r14, $r13, $r0 #linhas da matrizA
@@ -72,7 +73,6 @@ loop1:
 			mut $r6, $r4, $r5
 			add $r7, $r7, $r6
 			addi $r1, 1
-			add $r11, $0, $r1 #salvando a próxima linha da matriz A caso a sua linha anterior já foi totalmente utilizada
 			addi $r2, 1
 			addi $r8, 1
 			addi $r10, 1
@@ -85,11 +85,11 @@ end_loop3:
 	slt $r14, $r15, $r8 #a linha atual da matrizA ainda não foi calculada com todas as outras linhas da matrizB
 	bit $r14, nova_linha_matrizA 
 	reset $r1
-	add $r1, $0, $r12 #endereço do primeiro elemento da linha atual da matrizA que esta sendo calculada
+	add $r1, $r11, $r12 #endereço do primeiro elemento da linha atual da matrizA que esta sendo calculada
 	j loop2
 end_loop2:
 	reset $r12
-	add $r12, $0, $r11 #próxima linha da matrizA que será calculada
+	add $r12, $r11, $r1 #próxima linha da matrizA que será calculada
 	addi $r0, 1
 	reset $r13
 	addi $r13, 2 #linhas da matrizA
@@ -101,4 +101,3 @@ nova_linha_matrizA:
 	addi $r8, 7
 	j loop2
 end_loop1:
-	
