@@ -29,7 +29,9 @@
     li $t0, 2
     sw $t0, 44($sp)
     # Multiplicação das mastrizes A e B
-    li $t0, 0 #indice inicial da matrizA
+    li $s2, 2 #linhas da matrizA, da matrizB e colunas da matrizB
+    
+    li $t0, 1 #indice inicial da matrizA
     la $s0, 48($sp) #endereço da primeria linha e coluna da matrizC
     la $s5, 0($sp) #endereço da primeria linha e coluna da matrizA
     la $t1, 0($s5) #endereço da primeria linha e coluna da matrizA
@@ -37,14 +39,22 @@
     li $t8, 24 #acumulador de bytes
     # loop1 das linhas da matrizA
     loop1:
-	beq $t0, 2, end_loop1 #linhas da matrizA
-	li $t3, 0 #variavel do loop2
+    	slt $s3, $s2, $t0
+    	beq $s3, 1, end_loop1
+	#beq $t0, 2, end_loop1 #linhas da matrizA
+	li $t3, 1 #variavel do loop2
+	li $s2, 2 #linhas da matrizB
 	loop2:
-		beq $t3, 2, end_loop2 #linhas da matrizB
+		slt $s3, $s2, $t3
+    		beq $s3, 1, end_loop2
+		#beq $t3, 2, end_loop2 #linhas da matrizB
 		li $t7, 0 #acumulador
-		li $s1, 0 #variavel do loop3
+		li $s1, 1 #variavel do loop3
+		li $s2, 3 #colunas da matrizB
 		loop3:
-			beq $s1, 3, end_loop3 #colunas da matrizB
+			slt $s3, $s2, $s1
+    			beq $s3, 1, end_loop3
+			#beq $s1, 3, end_loop3 #colunas da matrizB
 			lw $t4, 0($t1) #acessando valor da matrizA
 			lw $t5, 0($t2) #acessando valor da matrizB
 			mul $t6, $t4, $t5 #multiplicando os valores das matrizes
@@ -66,6 +76,7 @@
     	li $a0, 32 #imprimir um espaço em branco
     	syscall #imprimir um espaço em branco
     	addi $s0, $s0, 4 #acessando endereço da matriz C
+    	li $s2, 2 #linhas da matrizB
     	beq $t8, 48, nova_linha_matrizA
     	#a linha atual da matrizA ainda não foi calculada com todas as outras linhas da matrizB
     	la $t1, 0($s5) #endereço do primeiro elemento da linha da matrizAa que está sendo calculada
@@ -78,6 +89,7 @@
 	li $a0, 10       # quebrar  linha (\n)
 	syscall	 	 # quebrar  linha (\n)
 
+	li $s2, 2 #linhas da matrizA
     	j loop1
     	
     nova_linha_matrizA:
