@@ -66,9 +66,9 @@
     	li $a0, 32 #imprimir um espaço em branco
     	syscall #imprimir um espaço em branco
     	addi $s0, $s0, 4 #acessando endereço da matriz C
-    	bne $t8, 48, reseta_linha_matrizA #a linha atual da matrizA ainda não foi calculada com todas as outras linhas da matrizB
-    	la $t2, 24($sp) #endereço da primeria linha e coluna da matrizB #a linha atual da matrizA já foi calculada
-    	li $t8, 24 #acumulador de bytes
+    	beq $t8, 48, nova_linha_matrizA
+    	#a linha atual da matrizA ainda não foi calculada com todas as outras linhas da matrizB
+    	la $t1, 0($s5) #endereço do primeiro elemento da linha da matrizAa que está sendo calculada
     	j loop2
     	
     end_loop2:
@@ -80,8 +80,9 @@
 
     	j loop1
     	
-    reseta_linha_matrizA:
-    	la $t1, 0($s5) #endereço do primeiro elemento da linha da matrizAa que está sendo calculada
+    nova_linha_matrizA:
+    	la $t2, 24($sp) #endereço da primeria linha e coluna da matrizB #a linha atual da matrizA já foi calculada
+    	li $t8, 24 #acumulador de bytes
     	j loop2
     	
     # Finalizar o programa
