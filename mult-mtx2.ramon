@@ -1,4 +1,4 @@
-#Armazenado os valores da matrizA
+//Armazenado os valores da matrizA
 addi $r0, 2
 sw $r0, 1 
 reset $r0
@@ -18,7 +18,7 @@ addi $r0, 3
 sw $r0, 6 
 reset $r0
 
-#Armazenado os valores da matrizB
+// Armazenado os valores da matrizB
 addi $r0, 1
 sw $r0, 7 
 reset $r0
@@ -38,36 +38,36 @@ addi $r0, 2
 sw $r0, 12 
 reset $r0
 
-#Multiplicação das mastrizes A e B
-addi $r0, 1 #variavel do loop1
-addi $r12, 1 #endereço da primeria linha e coluna da matrizA
-addi $r1, 1 #endereço da primeria linha e coluna da matrizA
-addi $r2, 7 #endereço da primeria linha e coluna da matrizB
-addi $r7, 0 #variavel que armazena cada valor da matrizC
-addi $r8, 7 #acumulador de bytes
+// Multiplicação das mastrizes A e B
+addi $r0, 1 // variavel do loop1
+addi $r12, 1 // endereço da primeria linha e coluna da matrizA
+addi $r1, 1 // endereço da primeria linha e coluna da matrizA
+addi $r2, 7 // endereço da primeria linha e coluna da matrizB
+addi $r7, 0 // variavel que armazena cada valor da matrizC
+addi $r8, 7 // acumulador de bytes
 
-addi $r13, 2 #representa as dimensões da matrizA e B
-addi $r15, 13 #endereço que representa o final da matrizB
-addi $r11, 0 #registrador que armazena o valor 0
+addi $r13, 2 // representa as dimensões da matrizA e B
+addi $r15, 13 // endereço que representa o final da matrizB
+addi $r11, 0 // registrador que armazena o valor 0
 
-loop1:
-	slt $r14, $r13, $r0 #linhas da matrizA
-	bit $r14, end_loop1
+_loop1:
+	slt $r14, $r13, $r0 // linhas da matrizA
+	bit $r14, _end_loop1
 	reset $r3
-	addi $r3, 1 #variavel do loop2
+	addi $r3, 1 // variavel do loop2
 	reset $r13
-	addi $r13, 2 #linhas da matrizB
-	loop2:
-		slt $r14, $r13, $r3 #linhas da matrizA
-		bit $r14, end_loop2
-		reset $r7 #variavel que armazena cada valor da matrizC
+	addi $r13, 2 // linhas da matrizB
+	_loop2:
+		slt $r14, $r13, $r3 // linhas da matrizA
+		bit $r14, _end_loop2
+		reset $r7 // variavel que armazena cada valor da matrizC
 		reset $r10
-		addi $r10, 1 #variavel do loop3
+		addi $r10, 1 // variavel do loop3
 		reset $r13
-		addi $r13, 3 #colunas da matrizB
-		loop3:
-			slt $r14, $r13, $r10 #colunas da matrizB
-			bit $r14, end_loop3
+		addi $r13, 3 // colunas da matrizB
+		_loop3:
+			slt $r14, $r13, $r10 // colunas da matrizB
+			bit $r14, _end_loop3
 			lw $r4, $r1
 			lw $r5, $r2
 			mut $r6, $r4, $r5
@@ -76,28 +76,28 @@ loop1:
 			addi $r2, 1
 			addi $r8, 1
 			addi $r10, 1
-			j loop3
-end_loop3:
-	addi $r3, 1 #incrementando a variavel do loop2
-	print $r7 #imprimindo valor da matriz C calculado
+			j _loop3
+_end_loop3:
+	addi $r3, 1 // incrementando a variavel do loop2
+	print $r7 // imprimindo valor da matriz C calculado
 	reset $r13
-	addi $r13, 2 #linhas da matrizB
-	slt $r14, $r15, $r8 #a linha atual da matrizA ainda não foi calculada com todas as outras linhas da matrizB
-	bit $r14, nova_linha_matrizA 
+	addi $r13, 2 // linhas da matrizB
+	slt $r14, $r15, $r8 // a linha atual da matrizA ainda não foi calculada com todas as outras linhas da matrizB
+	bit $r14, _nova_linha_matrizA 
 	reset $r1
-	add $r1, $r11, $r12 #endereço do primeiro elemento da linha atual da matrizA que esta sendo calculada
-	j loop2
-end_loop2:
+	add $r1, $r11, $r12 // endereço do primeiro elemento da linha atual da matrizA que esta sendo calculada
+	j _loop2
+_end_loop2:
 	reset $r12
-	add $r12, $r11, $r1 #próxima linha da matrizA que será calculada
+	add $r12, $r11, $r1 // próxima linha da matrizA que será calculada
 	addi $r0, 1
 	reset $r13
-	addi $r13, 2 #linhas da matrizA
-	j lopp1
-nova_linha_matrizA:
+	addi $r13, 2 // linhas da matrizA
+	j _loop1
+_nova_linha_matrizA:
 	reset $r2
-	addi $r2, 7 #endereço da primeria linha e coluna da matrizB, ou seja, a linha atual da matrizA já foi calculada
-	reset $r8 #acumulador de bytes
+	addi $r2, 7 // endereço da primeria linha e coluna da matrizB, ou seja, a linha atual da matrizA já foi calculada
+	reset $r8 // acumulador de bytes
 	addi $r8, 7
-	j loop2
-end_loop1:
+	j -loop2
+_end_loop1:
